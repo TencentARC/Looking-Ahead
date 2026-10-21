@@ -21,7 +21,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/%F0%9F%93%84_Paper-TODO-EF4444?style=for-the-badge&amp;labelColor=2B2F3A" alt="Paper"> &nbsp;
   <a href="https://hellorpg.github.io/looking-ahead/"><img src="https://img.shields.io/badge/%F0%9F%8C%90_Project_Page-6366F1?style=for-the-badge&amp;labelColor=2B2F3A" alt="Project Page"></a> &nbsp;
-  <img src="https://img.shields.io/badge/%F0%9F%A4%97_Models-TODO-0EA5E9?style=for-the-badge&amp;labelColor=2B2F3A" alt="Models">
+  <a href="https://huggingface.co/TencentARC/Looking-Ahead"><img src="https://img.shields.io/badge/%F0%9F%A4%97_Models-0EA5E9?style=for-the-badge&amp;labelColor=2B2F3A" alt="Models"></a>
 </p>
 
 <p align="center">
@@ -39,14 +39,13 @@ We provide training and inference code, along with weights for 1.3B and 5B autor
 
 ## 🔥 News
 
+- **2026-10-21:** Our [model weights](https://huggingface.co/TencentARC/Looking-Ahead) and [demo dataset](https://huggingface.co/datasets/TencentARC/Looking-Ahead) are now available on Hugging Face!
 - **2026-10-21:** Our [project page](https://hellorpg.github.io/looking-ahead/) and code are now available! Visit the project page for more demos.
 
 ## 🚧 Upcoming
 
 We are continuing to improve this project and explore new directions. Watch this repository to stay up to date with our progress. The documentation is also evolving: if you have any questions about using the project, please open an issue. Where helpful, we will incorporate clarifications into future documentation updates.
 
-- Release model weights.
-- Release demo datasets.
 - Add conda + pip installation instructions.
 
 ## ⚙️ Setup
@@ -116,11 +115,17 @@ These commands place the models in the default lookup directories under `./weigh
 
 | Model Size | Method        | Task | Final Weights |
 | ---------- | ------------- | ---- | ------------- |
-| 1.3B       | TF (baseline) | TI2V | 🚧 TODO       |
-| 1.3B       | FCP (ours)    | TI2V | 🚧 TODO       |
-| 5B         | TF (baseline) | TI2V | 🚧 TODO       |
-| 5B         | FCP (ours)    | TI2V | 🚧 TODO       |
+| 1.3B       | TF (baseline) | TI2V | [🤗 Hugging Face](https://huggingface.co/TencentARC/Looking-Ahead/resolve/main/tf_wan21_t2v_1.3b/model_ema.pt) |
+| 1.3B       | FCP (ours)    | TI2V | [🤗 Hugging Face](https://huggingface.co/TencentARC/Looking-Ahead/resolve/main/fcp_wan21_t2v_1.3b/model_ema.pt) |
+| 5B         | TF (baseline) | TI2V | [🤗 Hugging Face](https://huggingface.co/TencentARC/Looking-Ahead/resolve/main/tf_wan22_ti2v_5b/model_ema.pt) |
+| 5B         | FCP (ours)    | TI2V | [🤗 Hugging Face](https://huggingface.co/TencentARC/Looking-Ahead/resolve/main/fcp_wan22_ti2v_5b/model_ema.pt) |
 
+
+Download all final weights from the repository root:
+
+```bash
+hf download TencentARC/Looking-Ahead --local-dir weights/Looking-Ahead
+```
 
 Save the downloaded weights under `weights/Looking-Ahead/`, using the corresponding configuration name as the subdirectory and `model_ema.pt` as the filename.
 
@@ -186,7 +191,12 @@ See the [inference documentation](docs/inference.md) for more usage details.
 
 We provide a demo dataset to help you get started with training; custom datasets should follow the format below.
 
-> 🚧 **TODO:** Demo dataset download link will be added here.
+Download the demo dataset from [🤗 Hugging Face](https://huggingface.co/datasets/TencentARC/Looking-Ahead).
+
+```bash
+hf download TencentARC/Looking-Ahead --repo-type dataset \
+  --local-dir release_assets/dataset_demo
+```
 
 Place the downloaded demo datasets in the following directories under the repository root, preserving the `source_a/` and `source_b/` subdirectories:
 
