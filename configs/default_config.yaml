@@ -1,0 +1,85 @@
+# Shared defaults, not an additional training recipe.
+model_name: Wan2.1-T2V-1.3B
+load_diffusion_pretrained: true
+generator_fsdp_sync_module_states: false
+independent_first_frame: false
+condition_only_first_frame: false
+optimizer: adamw
+lr_warmup_steps: 0
+lr_drop_steps: []
+lr_drop_gamma: 0.1
+optimizer_config:
+  adamw:
+    lr: 1.0e-05
+    beta1: 0.0
+    beta2: 0.999
+    weight_decay: 0.01
+i2v: false
+gc_interval: 100
+timestep_bucket_log_interval: 500
+seed: 0
+wds_sample_shuffle: 1000
+wds_sample_shuffle_initial: 100
+data_sources: null
+inference_train_data_source_id: null
+max_iters: -1
+snapshot_iters: -1
+checkpoint_path: null
+resume_checkpoint_path: null
+save_resume_checkpoint: false
+batch_size: 1
+val_batch_size: 1
+test_sample_limit: -1
+caption_dropout_p: 0.0
+negative_prompt: Bright tones, overexposed, static, blurred details, subtitles, style,
+  works, paintings, images, static, overall gray, worst quality, low quality, JPEG
+  compression residue, ugly, incomplete, extra fingers, poorly drawn hands, poorly
+  drawn faces, deformed, disfigured, misshapen limbs, fused fingers, still picture,
+  messy background, three legs, many people in the background, walking backwards
+max_grad_norm: 10.0
+separate_predictive_grad_clip: false
+max_predictive_grad_norm: null
+max_checkpoints: 5
+ema_checkpoint_mode: default
+future_prediction:
+  enabled: false
+  init_mode: copy
+  source_context:
+    streams:
+    - clean
+    - noisy
+  source_layer_fusion:
+    mode: mlp
+    hidden_ratio: 2.0
+    activation: gelu
+  aux_future_timestep_range:
+  - 0.0
+  - 1000.0
+model_kwargs:
+  timestep_shift: 5.0
+  local_attn_size: -1
+  sink_size: 0
+timestep_shift: 5.0
+sampling_steps: 50
+sample_solver: unipc
+val_num_workers: 4
+no_save: false
+no_visualize: false
+disable_wandb: false
+expdir: null
+wandb_save_dir: null
+wandb_host: https://api.wandb.ai
+wandb_entity: null
+wandb_project: Looking-Ahead
+generator_ckpt: null
+require_raw_generator_checkpoint: false
+checkpoint_name: null
+output_path: null
+data_path: null
+annotation_path: null
+use_ema: false
+use_train_data: false
+duration: 5s
+num_output_frames: -1
+long_inference_threshold: 256
+vae_decode_chunk: 32

@@ -1,0 +1,13 @@
+.venv/
+.uv-venv/
+.uv-cache/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+outputs/
+.torchrun_logs/
+weights/
+release_assets/
+wandb/
+.runtime-cache/

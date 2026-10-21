@@ -1,0 +1,52 @@
+# TF/FCP recipe. Acquire base weights and prepare or download the matching demo first.
+model_name: Wan2.2-TI2V-5B
+generator_fsdp_sync_module_states: true
+timestep_shift: 5.0
+guidance_scale: 3.0
+mixed_precision: true
+sharding_strategy: hybrid_full
+lr_warmup_steps: 1000
+batch_size: 1
+ema_weight: 0.9995
+ema_checkpoint_mode: default
+ema_start_step: 2000
+max_iters: 25000
+log_iters: 1000
+snapshot_iters: 40000
+seed: 42
+wds_sample_shuffle: 128
+wds_sample_shuffle_initial: 128
+num_workers: 8
+image_or_video_shape:
+- 1
+- 31
+- 48
+- 36
+- 64
+gradient_checkpointing: true
+num_frame_per_block: 3
+independent_first_frame: true
+condition_only_first_frame: true
+model_kwargs:
+  timestep_shift: 5.0
+fps: 24
+data_path: null
+annotation_path: null
+data_sources:
+- id: source_a
+  data_path: release_assets/dataset_demo/wan22_ti2v_5b/source_a/latent_shards
+  annotation_path: release_assets/dataset_demo/wan22_ti2v_5b/source_a/annotations.jsonl
+  weight: 1.0
+- id: source_b
+  data_path: release_assets/dataset_demo/wan22_ti2v_5b/source_b/latent_shards
+  annotation_path: release_assets/dataset_demo/wan22_ti2v_5b/source_b/annotations.jsonl
+  weight: 1.0
+max_grad_norm: 0.1
+future_prediction:
+  enabled: false
+optimizer_config:
+  adamw:
+    lr: 1.0e-05
+    beta1: 0.0
+    beta2: 0.999
+    weight_decay: 0.01
