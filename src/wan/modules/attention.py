@@ -4,7 +4,11 @@ import torch
 from transformers.utils.import_utils import is_flash_attn_4_available
 FLASH_ATTN_4_AVAILABLE = is_flash_attn_4_available()
 if FLASH_ATTN_4_AVAILABLE:
-    import flash_attn.cute
+    try:
+        import flash_attn.cute
+    except ImportError:
+        # Installed but not importable, e.g. on Windows, where its quack dependency imports fcntl.
+        FLASH_ATTN_4_AVAILABLE = False
 
 import warnings
 
