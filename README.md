@@ -19,7 +19,8 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/%F0%9F%93%84_Paper-TODO-EF4444?style=for-the-badge&amp;labelColor=2B2F3A" alt="Paper"> &nbsp;
+  <a href="https://arxiv.org/abs/2610.29989"><img src="https://img.shields.io/badge/%F0%9F%93%84_Paper-EF4444?style=for-the-badge&amp;labelColor=2B2F3A" alt="Paper"></a> &nbsp;
+  <a href="https://huggingface.co/papers/2610.29989" aria-label="Upvote on Hugging Face Daily Papers"><img src="https://img.shields.io/badge/%F0%9F%A4%97_HF_Daily-Upvote-FFD21E?style=for-the-badge&amp;labelColor=2B2F3A" alt="HF Daily — Upvote"></a> &nbsp;
   <a href="https://hellorpg.github.io/looking-ahead/"><img src="https://img.shields.io/badge/%F0%9F%8C%90_Project_Page-6366F1?style=for-the-badge&amp;labelColor=2B2F3A" alt="Project Page"></a> &nbsp;
   <a href="https://huggingface.co/TencentARC/Looking-Ahead"><img src="https://img.shields.io/badge/%F0%9F%A4%97_Models-0EA5E9?style=for-the-badge&amp;labelColor=2B2F3A" alt="Models"></a>
 </p>
@@ -39,6 +40,7 @@ We provide training and inference code, along with weights for 1.3B and 5B autor
 
 ## 🔥 News
 
+- **2026-10-22:** Our paper is now available on [arXiv](https://arxiv.org/abs/2610.29989)! If you find our work helpful, please consider giving it an upvote on [HF Daily](https://huggingface.co/papers/2610.29989).
 - **2026-10-21:** Our [model weights](https://huggingface.co/TencentARC/Looking-Ahead) and [demo dataset](https://huggingface.co/datasets/TencentARC/Looking-Ahead) are now available on Hugging Face!
 - **2026-10-21:** Our [project page](https://hellorpg.github.io/looking-ahead/) and code are now available! Visit the project page for more demos.
 
@@ -222,3 +224,19 @@ bash run.sh train fcp_wan21_t2v_1.3b --exp_dir outputs/my_experiment
 ```
 
 To train another model or baseline, replace `fcp_wan21_t2v_1.3b` with `tf_wan21_t2v_1.3b`, `fcp_wan22_ti2v_5b`, or `tf_wan22_ti2v_5b`. Each name corresponds to a YAML file under `configs/`.
+
+## Citation
+
+If you find this work useful, please cite:
+
+```bibtex
+@misc{gao2026lookingahead,
+  title         = {Looking Ahead: Modeling Future Evolution in Autoregressive Video Generation},
+  author        = {Gao, Ruopeng and Huang, Yukun and Hu, Jiarui and Wang, Shuai and Hu, Wenbo and Shan, Ying and Wang, Limin},
+  year          = {2026},
+  eprint        = {2610.29989},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url           = {https://arxiv.org/abs/2610.29989}
+}
+```
