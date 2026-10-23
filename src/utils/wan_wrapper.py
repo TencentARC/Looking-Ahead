@@ -7,6 +7,11 @@ from contextlib import contextmanager, nullcontext
 
 import torch
 
+try:
+    import fcntl
+except ImportError:  # Windows has no flock; the base model then loads from WAN_ROOT directly.
+    fcntl = None
+
 from src.utils.scheduler import FlowMatchScheduler
 from src.utils.wan_model_family import get_wan_model_family
 from src.wan.modules.t5 import umt5_xxl
@@ -198,7 +203,7 @@ def _resolve_wan_model_dir(model_name: str) -> str:
     already_local = wan_root_abs == cache_root_abs or wan_root_abs.startswith(
         cache_root_abs.rstrip("/") + "/"
     )
-    if not WAN_LOCAL_CACHE_ENABLE or already_local or not os.path.isdir(src):
+    if fcntl is None or not WAN_LOCAL_CACHE_ENABLE or already_local or not os.path.isdir(src):
         _RESOLVED_MODEL_DIRS[model_name] = src
         return src
 
@@ -212,8 +217,6 @@ def _resolve_wan_model_dir(model_name: str) -> str:
         logging.info(f"[wan-cache] using cached {dst}")
         _RESOLVED_MODEL_DIRS[model_name] = dst
         return dst
-
-    import fcntl
 
     os.makedirs(dst, exist_ok=True)
     logging.info(

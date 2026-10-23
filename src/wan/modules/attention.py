@@ -2,9 +2,19 @@
 # Copyright 2024-2025 The Alibaba Wan Team Authors. All rights reserved.
 import torch
 from transformers.utils.import_utils import is_flash_attn_4_available
+
+from src.utils.attention_logging import log_attention_backend, warn_flash_attention_fallback
+
 FLASH_ATTN_4_AVAILABLE = is_flash_attn_4_available()
 if FLASH_ATTN_4_AVAILABLE:
-    import flash_attn.cute
+    try:
+        import flash_attn.cute
+    except ImportError as exc:
+        # Installed but not importable, e.g. on Windows, where its quack dependency imports fcntl.
+        FLASH_ATTN_4_AVAILABLE = False
+        warn_flash_attention_fallback(type(exc).__name__, str(exc))
+
+log_attention_backend(FLASH_ATTN_4_AVAILABLE)
 
 import warnings
 

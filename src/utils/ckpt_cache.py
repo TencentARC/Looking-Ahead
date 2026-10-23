@@ -58,6 +58,11 @@ import time
 
 import torch
 
+try:
+    import fcntl
+except ImportError:  # Windows has no flock; checkpoints then load from their own path.
+    fcntl = None
+
 __all__ = [
     "stage_ckpt_to_local",
     "load_ckpt",
@@ -100,7 +105,7 @@ def _should_stage(path: str) -> bool:
       to ``cache/y`` would be pointless and would also break the
       "directory hash -> staged subdir" mapping.
     """
-    if not _CKPT_LOCAL_CACHE_ENABLE:
+    if fcntl is None or not _CKPT_LOCAL_CACHE_ENABLE:
         return False
     if _REMOTE_FUSE_PREFIX:
         return path.startswith(_REMOTE_FUSE_PREFIX)
@@ -157,7 +162,6 @@ def stage_ckpt_to_local(path: str, *, logger=None, copy_siblings: bool = True) -
     if not _should_stage(path):
         return path
 
-    import fcntl
     import hashlib
     import shutil
 

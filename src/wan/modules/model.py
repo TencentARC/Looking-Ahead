@@ -2,7 +2,7 @@
 # Copyright 2024-2025 The Alibaba Wan Team Authors. All rights reserved.
 import torch
 import torch.nn as nn
-from .attention import flash_attention
+from .attention import attention
 
 
 class WanRMSNorm(nn.Module):
@@ -84,7 +84,7 @@ class WanT2VCrossAttention(WanSelfAttention):
             v = self.v(context).view(b, -1, n, d)
 
         # compute attention
-        x = flash_attention(q, k, v, k_lens=context_lens)
+        x = attention(q, k, v, k_lens=context_lens)
 
         # output
         x = x.flatten(2)
