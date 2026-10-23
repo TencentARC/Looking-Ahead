@@ -166,7 +166,7 @@ By default, inference selects the longest valid tail segment of the input video
 as the prefix. Use `--v2v_context_latents` to set the prefix length manually.
 See the [inference documentation](docs/inference.md) for details.
 
-### General Text-and-Image-to-Video Generation
+### Text-and-Image-to-Video Generation
 
 Run the following single-GPU example from the repository root. It generates a 5-second video using the 1.3B FCP model, the provided sailboat image and its matching prompt file:
 
