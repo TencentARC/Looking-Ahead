@@ -21,6 +21,34 @@ fi
 shift 2
 extra_args=("$@")
 
+# Use the activated conda/venv interpreter throughout, including torchrun.
+# Without an activated environment, retain the uv-managed project default.
+runtime="${LOOKING_AHEAD_ENV:-auto}"
+if [[ "$runtime" == auto ]]; then
+    if [[ -n "${CONDA_PREFIX:-}" || -n "${VIRTUAL_ENV:-}" ]]; then
+        runtime=active
+    else
+        runtime=uv
+    fi
+fi
+case "$runtime" in
+    active)
+        if [[ -z "${CONDA_PREFIX:-}" && -z "${VIRTUAL_ENV:-}" ]]; then
+            echo 'Activate your conda or virtual environment before using LOOKING_AHEAD_ENV=active.' >&2
+            exit 1
+        fi
+        python_cmd=(python) ;;
+    uv)
+        if ! command -v uv &>/dev/null; then
+            echo 'Activate the project conda/virtual environment, or install uv.' >&2
+            exit 1
+        fi
+        python_cmd=(uv run python) ;;
+    *)
+        echo 'LOOKING_AHEAD_ENV must be auto, active or uv.' >&2
+        exit 1 ;;
+esac
+
 get_num_gpus() {
     if [[ -n "${CUDA_VISIBLE_DEVICES:-}" ]]; then
         local devices
@@ -103,9 +131,9 @@ for arg in "${extra_args[@]}"; do
     case "$arg" in
         -h|--help|--dry_run)
             if [[ "$action" == train ]]; then
-                exec uv run python "${cmd[@]}"
+                exec "${python_cmd[@]}" "${cmd[@]}"
             else
-                exec uv run python -m src.utils.launcher_entry "$action" \
+                exec "${python_cmd[@]}" -m src.utils.launcher_entry "$action" \
                     --config_path "$config" "${extra_args[@]}"
             fi ;;
     esac
@@ -125,15 +153,15 @@ fi
 
 if [[ "$action" == train ]]; then
     TRAIN_LOG_DIR="$(WORLD_SIZE=$(( WORLD_SIZE * NUM_GPUS )) RANK="$RANK" \
-        uv run python -m src.utils.train_cli --config_path "$config" "${extra_args[@]}")"
+        "${python_cmd[@]}" -m src.utils.train_cli --config_path "$config" "${extra_args[@]}")"
     exec > >(tee -- "$TRAIN_LOG_DIR/launcher.log") 2>&1
     echo "Training launcher logs: $TRAIN_LOG_DIR"
     echo "Node rank: $RANK; nodes: $WORLD_SIZE; GPUs per node: $NUM_GPUS"
-    exec uv run torchrun "${torch_args[@]}" --redirects 3 --tee 3 \
+    exec "${python_cmd[@]}" -m torch.distributed.run "${torch_args[@]}" --redirects 3 --tee 3 \
         --log-dir "$TRAIN_LOG_DIR" "${cmd[@]}"
 else
     if [[ "$DEBUG" != 1 ]]; then
         torch_args+=(--redirects 3 --tee 3 --log-dir .torchrun_logs)
     fi
-    exec uv run torchrun "${torch_args[@]}" "${cmd[@]}"
+    exec "${python_cmd[@]}" -m torch.distributed.run "${torch_args[@]}" "${cmd[@]}"
 fi

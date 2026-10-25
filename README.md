@@ -40,6 +40,7 @@ We provide training and inference code, along with weights for 1.3B and 5B autor
 
 ## 🔥 News
 
+- **2026-10-26:** [Conda + pip installation](#conda--pip) is now available.
 - **2026-10-22:** Our paper is now available on [arXiv](https://arxiv.org/abs/2610.29989)! If you find our work helpful, please consider giving it an upvote on [HF Daily](https://huggingface.co/papers/2610.29989).
 - **2026-10-21:** Our [model weights](https://huggingface.co/TencentARC/Looking-Ahead) and [demo dataset](https://huggingface.co/datasets/TencentARC/Looking-Ahead) are now available on Hugging Face!
 - **2026-10-21:** Our [project page](https://hellorpg.github.io/looking-ahead/) and code are now available! Visit the project page for more demos.
@@ -48,11 +49,10 @@ We provide training and inference code, along with weights for 1.3B and 5B autor
 
 We are continuing to improve this project and explore new directions. Watch this repository to stay up to date with our progress. The documentation is also evolving: if you have any questions about using the project, please open an issue. Where helpful, we will incorporate clarifications into future documentation updates.
 
-- Add conda + pip installation instructions.
 
 ## ⚙️ Setup
 
-We tested this project on Linux with an NVIDIA H200 GPU, Python 3.12.3 and PyTorch 2.10.0+cu128 (CUDA 12.8); compatibility with other environments has not been tested.
+Tested on Linux with Python 3.12 and PyTorch 2.10.0+cu128 (CUDA 12.8).
 
 You can set up the environment using any of the following methods.
 
@@ -79,7 +79,22 @@ source .venv/bin/activate
 
 ### conda + pip
 
-> 🚧 **TODO:** Installation instructions will be added here.
+Run the following commands from the repository root:
+
+```bash
+conda create -n looking-ahead python=3.12 pip "ffmpeg=7.1.*" -c conda-forge -y
+conda activate looking-ahead
+
+python -m pip install torch==2.10.0 torchvision==0.25.0 \
+  --index-url https://download.pytorch.org/whl/cu128
+python -m pip install -r requirements.txt
+```
+
+Activate `looking-ahead` before training or inference. `run.sh` automatically
+uses the activated environment. A compatible NVIDIA driver and a C++ compiler
+(`g++` / `c++`) are required.
+
+`requirements.txt` pins dependencies from `uv.lock`.
 
 
 

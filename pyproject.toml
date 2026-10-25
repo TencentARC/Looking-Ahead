@@ -49,7 +49,3 @@ extend-exclude = ["src/wan", "src/wan22"]
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "C4", "UP", "W"]
 ignore = ["E501"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-pythonpath = ["."]

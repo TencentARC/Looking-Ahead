@@ -2,8 +2,8 @@
 
 This guide covers text-and-image-to-video (TI2V) generation and text-and-video-to-video (TV2V) continuation. TI2V conditions on text and a supplied first frame, while TV2V conditions on text and a supplied video segment.
 
-Run the commands from the repository root after preparing the environment and
-model assets described in the [README](../README.md). The examples use `uv run python`; `python` also works when the project environment is already activated.
+Run the commands from the repository root after activating the project environment
+and preparing the model assets described in the [README](../README.md).
 
 ## Contents
 
@@ -113,7 +113,7 @@ transform but do not currently emit this per-image JSON report.
 This example continues the milk-pouring input with the 5B FCP EMA model:
 
 ```bash
-uv run python inference.py \
+python inference.py \
   --config fcp_wan22_ti2v_5b \
   --checkpoint_path weights/Looking-Ahead/fcp_wan22_ti2v_5b/model_ema.pt \
   --use_ema \
@@ -134,7 +134,7 @@ continuation frames.
 The same MP4 can be used directly with 1.3B:
 
 ```bash
-uv run python inference.py \
+python inference.py \
   --config fcp_wan21_t2v_1.3b \
   --checkpoint_path weights/Looking-Ahead/fcp_wan21_t2v_1.3b/model_ema.pt \
   --use_ema \
@@ -150,7 +150,7 @@ by 67 continuation frames. No separately converted input file is required.
 To override sampling settings for this TV2V example:
 
 ```bash
-uv run python inference.py \
+python inference.py \
   --config fcp_wan22_ti2v_5b \
   --checkpoint_path weights/Looking-Ahead/fcp_wan22_ti2v_5b/model_ema.pt \
   --use_ema \
@@ -226,7 +226,7 @@ silently shortened. Use a new output directory when changing this setting.
 #### Single image and prompt
 
 ```bash
-uv run python inference.py \
+python inference.py \
   --config fcp_wan21_t2v_1.3b \
   --checkpoint_path weights/Looking-Ahead/fcp_wan21_t2v_1.3b/model_ema.pt \
   --use_ema \
@@ -262,7 +262,7 @@ examples/inference/i2v_batch/
 ```
 
 ```bash
-uv run python inference.py \
+python inference.py \
   --config fcp_wan21_t2v_1.3b \
   --checkpoint_path weights/Looking-Ahead/fcp_wan21_t2v_1.3b/model_ema.pt \
   --use_ema --i2v \

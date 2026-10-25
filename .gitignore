@@ -1,6 +1,9 @@
 .venv/
 .uv-venv/
 .uv-cache/
+.conda-env/
+.conda-pkgs/
+.pip-cache/
 __pycache__/
 .pytest_cache/
 .ruff_cache/
