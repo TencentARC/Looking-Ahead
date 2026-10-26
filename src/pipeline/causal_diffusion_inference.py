@@ -280,6 +280,9 @@ class CausalDiffusionInferencePipeline(torch.nn.Module):
                 pbar.update(current_num_frames)
                 pbar.set_description("Processing latent frames")
         if return_video:
+            # The next call re-creates the KV caches. Freeing them first leaves their
+            # memory to the VAE decode (about 12 GiB for 5B at 1024x576).
+            self.reset_cache()
             video = self.vae.decode_to_pixel(output)
             video = (video * 0.5 + 0.5).clamp(0, 1)
             if return_latents:
