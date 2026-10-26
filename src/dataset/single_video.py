@@ -46,8 +46,11 @@ class SingleVideoDataset(Dataset):
             self.context_latents, condition_frames = automatic_prefix_geometry(
                 auto_context_config, available
             )
+            # Step back from the last frame in frame units, then divide once. With
+            # last_pts - k / fps, the rounding of k / fps can leave a time just before
+            # a frame's PTS, and get_frames_played_at then repeats the previous frame.
             times = [
-                max(start, last_pts - (condition_frames - 1 - index) / fps)
+                max(start, (last_pts * fps - (condition_frames - 1 - index)) / fps)
                 for index in range(condition_frames)
             ]
         else:
